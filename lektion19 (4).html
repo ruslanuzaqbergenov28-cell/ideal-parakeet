@@ -1,0 +1,432 @@
+<title>Lektion 19</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+:root{--bg:#fafaf8;--card:#ffffff;--ink:#1d2026;--muted:#6f747c;--line:#e8e8e4;--acc:#33415f;--accink:#fff;--ok:#2d7a54;--okbg:#e7f3ec;--bad:#b3443d;--badbg:#fbeceb}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#252a32;--card:#2e343e;--ink:#f0f2f5;--muted:#a9b1bd;--line:#3d4551;--acc:#b9c8e8;--accink:#161b25;--ok:#8fd1ac;--okbg:#25382f;--bad:#f0a7a0;--badbg:#42292a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#252a32;--card:#2e343e;--ink:#f0f2f5;--muted:#a9b1bd;--line:#3d4551;--acc:#b9c8e8;--accink:#161b25;--ok:#8fd1ac;--okbg:#25382f;--bad:#f0a7a0;--badbg:#42292a;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:18px 40px}
+.wrap{max-width:430px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+h1{font-size:22px;margin:0;line-height:1.25}
+.sub{color:var(--muted);font-size:14px;margin:0}
+.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.rule{font-size:14px;line-height:1.55}
+.rule b,.lbl{display:block;color:var(--acc);font-size:12px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:6px 0}
+th,td{text-align:left;padding:5px 6px;border-bottom:1px solid var(--line)}
+th{color:var(--muted);font-weight:500}
+.scroll{overflow-x:auto}
+.chips{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:12px 0;font:inherit;font-weight:600;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:var(--accink)}
+.btn{width:100%;padding:14px;border:0;border-radius:12px;background:var(--acc);color:var(--accink);font:inherit;font-weight:600;cursor:pointer}
+.ghost{background:transparent;border:1px solid var(--line);color:var(--ink);font-weight:400;font-size:14px;padding:11px}
+button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.stats{display:flex;justify-content:space-between;color:var(--muted);font-size:13px}
+.bar{height:4px;background:var(--line);border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--acc);transition:width .25s}
+.q{font-size:19px;font-weight:600;line-height:1.4;overflow-wrap:anywhere}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{text-align:left;padding:13px 15px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font:inherit;cursor:pointer;overflow-wrap:anywhere}
+.opt.good{background:var(--okbg);border-color:var(--ok);color:var(--ok)}
+.opt.wrong{background:var(--badbg);border-color:var(--bad);color:var(--bad)}
+.opt:disabled{cursor:default}
+.msg{padding:12px 14px;border-radius:12px;font-size:15px}
+.msg.ok{background:var(--okbg);color:var(--ok)}.msg.bad{background:var(--badbg);color:var(--bad)}
+.msg b{display:block;color:var(--ink)}
+.exp{font-size:14px;line-height:1.55;color:var(--ink);border-left:3px solid var(--acc);padding:8px 12px;background:var(--card);border-radius:0 10px 10px 0}
+.big{font-size:46px;font-weight:700;text-align:center;margin:4px 0}
+.center{text-align:center}
+.mi{font-size:15px;display:flex;flex-direction:column;gap:3px}
+.mi .x{color:var(--bad)}.mi .v{color:var(--ok)}.mi small{color:var(--muted);font-size:13px;line-height:1.5}
+.gh{margin:8px 0 0;font-size:13px;letter-spacing:.05em;color:var(--acc);font-weight:600}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+.tabs{position:sticky;top:0;z-index:5;max-width:430px;margin:0 auto 12px;padding:8px 0;display:grid;grid-template-columns:1fr 1fr;gap:8px;background:var(--bg)}
+[hidden]{display:none!important}
+.fc{width:100%;text-align:center;padding:26px 14px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);font:inherit;cursor:pointer}
+.fc .w{font-size:30px;font-weight:700;overflow-wrap:anywhere}.fc .u{color:var(--muted);font-size:15px;margin-top:4px}
+.fc .f{display:flex;flex-direction:column;gap:6px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);font-size:20px;font-weight:600;color:var(--acc)}
+.fc .f small{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:400;display:block}
+.fc .n{font-size:13px;color:var(--muted);margin-top:10px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.inp{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font:inherit}
+td small{display:block;color:var(--muted);font-size:12px}
+.fe td:first-child{font-weight:600}
+.og{display:grid;grid-template-columns:1fr 1fr;gap:8px}.og .opt{text-align:center;font-weight:600;font-size:15px;padding:11px 6px}
+.tag{display:inline-block;background:var(--acc);color:var(--accink);border-radius:20px;padding:3px 14px;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.qw{font-size:26px;font-weight:700;margin:8px 0 0;overflow-wrap:anywhere}
+.sg{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}.sg::-webkit-scrollbar{display:none}
+.sg .chip{flex:none;padding:9px 14px;white-space:nowrap;font-size:14px}
+.wrap2{display:flex;flex-direction:column;gap:12px}
+.grp{padding:12px 14px}.gh2{display:flex;justify-content:space-between;align-items:center}.gh2 .cnt{color:var(--muted);font-size:13px}
+.gn{font-size:13px;line-height:1.5;margin:8px 0 4px}
+.gp{display:block;color:var(--acc);font-size:12px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
+.fc .tag{margin-bottom:12px}
+
+/* ixcham dizayn */
+body{font-size:14px;line-height:1.45;padding-block:10px 28px}
+.wrap{gap:9px}.fe{gap:8px}
+h1{font-size:17px}.sub{font-size:12.5px}
+.box{padding:10px 12px;border-radius:10px}
+.tabs{padding:6px 0;gap:6px}
+.chip{padding:7px 0;font-size:13px;font-weight:500;border-radius:8px}
+.chips{gap:6px}
+.btn{padding:10px;font-size:14px;border-radius:10px}
+.ghost{font-size:13px;padding:8px}
+.lbl{font-size:11px}
+.stats{font-size:12px}.stats.hd{font-size:13px;color:var(--ink)}
+.q{font-size:16px}
+.opts{gap:7px}.opt{padding:10px 12px;font-size:14px;border-radius:10px}
+.msg{font-size:13.5px;padding:9px 12px}.exp{font-size:13px;padding:7px 10px}
+.big{font-size:34px}
+.rule{font-size:13px}
+.fc{padding:16px 12px;border-radius:12px}.fc .w{font-size:22px}.fc .u{font-size:13.5px}
+.fc .f{font-size:16px;margin-top:10px;padding-top:10px;gap:4px}.fc .n{font-size:12px;margin-top:8px}
+.fc .tag{margin-bottom:8px}
+.qw{font-size:20px;margin-top:6px}
+.og{gap:6px}.og .opt{font-size:14px;padding:9px 4px}
+.inp{padding:9px 12px;font-size:14px;border-radius:10px}
+table{font-size:13px}th,td{padding:4px 5px}td small{font-size:11px}
+.tag{font-size:10.5px;padding:2px 10px}
+.row2{gap:6px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--card)}
+.seg button{border:0;background:transparent;color:var(--muted);font:inherit;font-size:13px;padding:8px 0;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--acc);color:var(--accink);font-weight:600}
+.note{font-size:12.5px;color:var(--muted);line-height:1.45}
+.wrap2{display:flex;flex-direction:column;gap:8px}
+.grp{padding:9px 12px}
+.grp summary{cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none}
+.grp summary::-webkit-details-marker{display:none}
+.grp[open] summary{margin-bottom:6px}
+.grp .cnt{color:var(--muted);font-size:12px}
+.seg{grid-template-columns:repeat(2,1fr)}
+.qb{padding:22px 12px}.qb .qw{font-size:26px;margin:0}.qb .ask{margin-top:12px;font-size:12px;color:var(--muted)}
+.og{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.og .opt{padding:14px 6px;font-size:16px;text-align:center}
+.res{min-height:42px;display:flex;align-items:center;justify-content:center;border-radius:10px;font-size:14px;font-weight:600;padding:8px 12px;text-align:center}
+.res.ok{background:rgba(46,160,67,.15);color:#2e8b3c}.res.bad{background:rgba(220,60,60,.14);color:#c0392b}.res.ph{color:transparent}
+.lnk{background:none;border:0;color:var(--muted);font:inherit;font-size:12px;text-decoration:underline;cursor:pointer;padding:0}
+.sec{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:12px 2px 0}
+.mb{border:0;background:var(--acc);color:var(--accink);font:inherit;font-size:13px;font-weight:600;padding:6px 16px;border-radius:8px;cursor:pointer}
+.gh2{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.stats.hd{display:flex;justify-content:space-between;align-items:center}
+.grp summary{display:flex;align-items:center;gap:8px;cursor:pointer;list-style:none}
+.grp summary::-webkit-details-marker{display:none}
+.grp .gl{flex:1}.grp .car{color:var(--muted);transition:transform .15s;font-size:12px}
+.grp[open] .car{transform:rotate(90deg)}
+.grp[open] summary{margin-bottom:8px}
+
+.grp{padding:0}.grp .gs{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:10px;width:100%;padding:13px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.grp .gs:active{opacity:.7}
+.grp .car{color:var(--muted);font-size:18px;line-height:1;transition:transform .25s ease;width:12px}
+.grp.open .car{transform:rotate(90deg)}
+.grp .gt{flex:1;font-size:14px;font-weight:600;color:var(--ink);text-transform:none;letter-spacing:0}
+.grp .cnt{font-size:12px;color:var(--muted);background:var(--bg);border-radius:20px;padding:1px 8px}
+.gb{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease}
+.grp.open .gb{grid-template-rows:1fr}
+.gb>.gin{overflow:hidden;min-height:0;opacity:0;transition:opacity .25s ease;padding:0 14px}
+.grp.open .gb>.gin{opacity:1;padding-bottom:12px}
+.gin .note{margin:0 0 6px}
+.vl{display:flex;flex-direction:column}
+.vr{display:grid;grid-template-columns:1.15fr 1fr 1.25fr;column-gap:8px;padding:9px 0;border-top:1px solid var(--line);font-size:14px;align-items:baseline}
+.vr b{font-weight:600}.vr span{color:var(--ink)}
+.vr em{grid-column:1/-1;font-style:normal;font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.4}
+.ft{display:flex;justify-content:flex-end;margin-top:8px}
+.mb{padding:7px 18px}
+.sec{font-size:11.5px;font-weight:600;color:var(--muted);text-transform:none;letter-spacing:.02em;margin:14px 2px 2px}
+.og{grid-template-columns:1fr}
+.og .opt{padding:13px 10px;font-size:16px}
+.nx{border:0;background:var(--acc);color:var(--accink);font:inherit;font-size:13px;font-weight:600;padding:7px 14px;border-radius:8px;cursor:pointer}
+.rs{align-self:center;margin-top:6px}
+#fe{font-size:13px}
+.bk{border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:13px;padding:6px 12px;border-radius:8px;cursor:pointer}
+.nx{padding:6px 14px;font-size:13px}
+#fe .qb{padding:14px 10px}#fe .qb .qw{font-size:22px}#fe .qb .ask{margin-top:8px;font-size:12px}
+#fe .og{gap:6px}#fe .og .opt{padding:10px 8px;font-size:15px;border-radius:9px}
+#fe .res{min-height:36px;font-size:13px;padding:6px 10px}
+#fe .note{font-size:12px}#fe .stats{font-size:12px}
+.rb{align-self:center;border:1px solid var(--line);background:transparent;color:var(--muted);font:inherit;font-size:12.5px;padding:6px 16px;border-radius:8px;cursor:pointer;margin-top:4px}
+#fe .vr{font-size:13px;padding:8px 0}#fe .vr em{font-size:12px}
+#fe .gt{font-size:13px}#fe .inp{padding:8px 12px;font-size:13px}#fe .mb{font-size:12.5px;padding:6px 16px}
+#fe .qt{font-weight:600;font-size:13px}
+.sc{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+#fe .box{box-shadow:0 1px 2px rgba(20,40,35,.05)}
+#fe .opt{transition:background .15s,border-color .15s;box-shadow:0 1px 2px rgba(20,40,35,.04)}
+#fe .opt:not(:disabled):active{background:var(--bg)}
+#fe .ty{text-align:center;font-size:15px;border-color:var(--bad)}#fe .ty.okk{border-color:var(--ok)}
+.dock{position:sticky;bottom:0;display:flex;flex-direction:column;gap:6px;padding:12px 0 10px;margin-top:4px;background:linear-gradient(to bottom,transparent,var(--bg) 28%)}
+#fe .nx{width:100%;padding:13px;font-size:15px;border-radius:12px;box-shadow:0 2px 6px rgba(20,40,35,.15)}
+.nx:disabled{opacity:.4;box-shadow:none;cursor:default}
+.rb{margin-top:0}
+.res.ok{background:var(--okbg);color:var(--ok)}.res.bad{background:var(--badbg);color:var(--bad)}
+.dock{flex-direction:row-reverse;justify-content:space-between;align-items:center;gap:8px;padding:10px 0 8px}
+#fe .nx{width:auto;padding:8px 18px;font-size:13px;border-radius:9px;box-shadow:none}
+#fe .rb{margin:0;padding:7px 12px;border:0;font-size:12px}
+#fe .box,#fe .opt{box-shadow:none}
+body{zoom:.95}
+#fe{display:flex;flex-direction:column;min-height:calc((100dvh - 120px)/.95)}
+#fe .dock{margin-top:auto}
+.why{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:10px 12px;font-size:12.5px;line-height:1.5}
+.why .wf{font-size:14px}.why .wt{color:var(--muted);margin:2px 0 6px}.why .wr{color:var(--ink)}
+.why .wr b{font-weight:600}
+</style>
+<div class="tabs" role="tablist"><button class="chip" id="t1" aria-pressed="true" onclick="tab('t')">Test</button><button class="chip" id="t2" aria-pressed="false" onclick="tab('f')">Fe’llar</button></div>
+<div class="wrap" id="app"></div>
+<div class="wrap fe" id="fe" hidden></div>
+<script>
+const QS=[{"q": "Akkusativdagi olmoshni qo’ying: Ich sehe ___. (er)", "a": "ihn", "o": ["ihn", "ihm", "er", "sie"], "e": "To’g’ridan-to’g’ri to’ldiruvchi (wen? was?) Akkusativda: ihn. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Akkusativdagi olmoshni qo’ying: Ich kenne ___ gut. (sie — u, qiz)", "a": "sie", "o": ["sie", "ihr", "ihn", "es"], "e": "To’g’ridan-to’g’ri to’ldiruvchi (wen? was?) Akkusativda: sie. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Akkusativdagi olmoshni qo’ying: Er liebt ___. (ich)", "a": "mich", "o": ["mich", "mir", "ich", "dich"], "e": "To’g’ridan-to’g’ri to’ldiruvchi (wen? was?) Akkusativda: mich. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Akkusativdagi olmoshni qo’ying: Wir besuchen ___ heute. (ihr)", "a": "euch", "o": ["euch", "euer", "ihnen", "uns"], "e": "To’g’ridan-to’g’ri to’ldiruvchi (wen? was?) Akkusativda: euch. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Akkusativdagi olmoshni qo’ying: Ich suche ___. (du)", "a": "dich", "o": ["dich", "dir", "du", "mich"], "e": "To’g’ridan-to’g’ri to’ldiruvchi (wen? was?) Akkusativda: dich. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Akkusativdagi olmoshni qo’ying: Siehst du ___? (wir)", "a": "uns", "o": ["uns", "euch", "ihnen", "wir"], "e": "To’g’ridan-to’g’ri to’ldiruvchi (wen? was?) Akkusativda: uns. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Akkusativdagi olmoshni qo’ying: Ich besuche ___ morgen. (Sie — Siz, hurmat)", "a": "Sie", "o": ["Sie", "Ihnen", "ihn", "dich"], "e": "To’g’ridan-to’g’ri to’ldiruvchi (wen? was?) Akkusativda: Sie. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Akkusativdagi olmoshni qo’ying: Ich frage ___. (er)", "a": "ihn", "o": ["ihn", "ihm", "er", "es"], "e": "To’g’ridan-to’g’ri to’ldiruvchi (wen? was?) Akkusativda: ihn. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Akkusativdagi olmoshni qo’ying: Sie kennt ___ gut. (ich)", "a": "mich", "o": ["mich", "mir", "ich", "dich"], "e": "To’g’ridan-to’g’ri to’ldiruvchi (wen? was?) Akkusativda: mich. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Akkusativdagi olmoshni qo’ying: Ich brauche ___. (du)", "a": "dich", "o": ["dich", "dir", "du", "euch"], "e": "To’g’ridan-to’g’ri to’ldiruvchi (wen? was?) Akkusativda: dich. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Akkusativdagi olmoshni qo’ying: Nimmst du das Buch? — Ja, ich nehme ___.", "a": "es", "o": ["es", "ihn", "sie", "ihm"], "e": "To’g’ridan-to’g’ri to’ldiruvchi (wen? was?) Akkusativda: es. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Akkusativdagi olmoshni qo’ying: Brauchst du den Text? — Nein, ich brauche ___ nicht.", "a": "ihn", "o": ["ihn", "es", "sie", "ihm"], "e": "To’g’ridan-to’g’ri to’ldiruvchi (wen? was?) Akkusativda: ihn. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Akkusativdagi olmoshni qo’ying: Siehst du die Mutter oft? — Ja, ich sehe ___ oft.", "a": "sie", "o": ["sie", "ihr", "ihn", "es"], "e": "To’g’ridan-to’g’ri to’ldiruvchi (wen? was?) Akkusativda: sie. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Akkusativdagi olmoshni qo’ying: Kaufen Sie das Handy? — Ja, ich kaufe ___.", "a": "es", "o": ["es", "ihn", "sie", "ihm"], "e": "To’g’ridan-to’g’ri to’ldiruvchi (wen? was?) Akkusativda: es. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Akkusativdagi olmoshni qo’ying: Siehst du den Bruder oft? — Ja, ich sehe ___ oft.", "a": "ihn", "o": ["ihn", "sie", "es", "ihm"], "e": "To’g’ridan-to’g’ri to’ldiruvchi (wen? was?) Akkusativda: ihn. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Akkusativdagi olmoshni qo’ying: Liebst du deine Kinder? — Ja, ich liebe ___. (ular)", "a": "sie", "o": ["sie", "ihnen", "ihn", "es"], "e": "To’g’ridan-to’g’ri to’ldiruvchi (wen? was?) Akkusativda: sie. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Akkusativdagi olmoshni qo’ying: Besuchst du Anna oft? — Nein, ich besuche ___ nicht oft.", "a": "sie", "o": ["sie", "ihr", "ihn", "es"], "e": "To’g’ridan-to’g’ri to’ldiruvchi (wen? was?) Akkusativda: sie. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Akkusativdagi olmoshni qo’ying: Brauchst du die Hose? — Ja, ich brauche ___.", "a": "sie", "o": ["sie", "ihn", "es", "ihr"], "e": "To’g’ridan-to’g’ri to’ldiruvchi (wen? was?) Akkusativda: sie. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Akkusativdagi olmoshni qo’ying: Nimmst du die Zeitung? — Ja, ich nehme ___.", "a": "sie", "o": ["sie", "ihn", "es", "ihr"], "e": "To’g’ridan-to’g’ri to’ldiruvchi (wen? was?) Akkusativda: sie. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Akkusativdagi olmoshni qo’ying: Siehst du das Kind oft? — Ja, ich sehe ___ oft.", "a": "es", "o": ["es", "ihn", "sie", "ihm"], "e": "To’g’ridan-to’g’ri to’ldiruvchi (wen? was?) Akkusativda: es. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Akkusativdagi olmoshni qo’ying: Liest du den Brief? — Ja, ich lese ___.", "a": "ihn", "o": ["ihn", "es", "sie", "ihm"], "e": "To’g’ridan-to’g’ri to’ldiruvchi (wen? was?) Akkusativda: ihn. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Akkusativdagi olmoshni qo’ying: Hörst du uns? — Ja, ich höre ___.", "a": "euch", "o": ["euch", "uns", "ihnen", "mich"], "e": "To’g’ridan-to’g’ri to’ldiruvchi (wen? was?) Akkusativda: euch. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Akkusativdagi olmoshni qo’ying: Siehst du mich? — Ja, ich sehe ___.", "a": "dich", "o": ["dich", "mich", "dir", "du"], "e": "To’g’ridan-to’g’ri to’ldiruvchi (wen? was?) Akkusativda: dich. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Akkusativdagi olmoshni qo’ying: Kennen Sie Frau Schmidt? — Ja, ich kenne ___.", "a": "sie", "o": ["sie", "ihr", "ihn", "es"], "e": "To’g’ridan-to’g’ri to’ldiruvchi (wen? was?) Akkusativda: sie. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Dativdagi olmoshni qo’ying: Ich gebe ___ das Buch. (er)", "a": "ihm", "o": ["ihm", "ihn", "er", "ihr"], "e": "Dativ (wem? — kimga?) olmoshi: ihm. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Dativdagi olmoshni qo’ying: Er hilft ___. (ich)", "a": "mir", "o": ["mir", "mich", "ich", "dir"], "e": "Dativ (wem? — kimga?) olmoshi: mir. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Dativdagi olmoshni qo’ying: Ich danke ___. (du)", "a": "dir", "o": ["dir", "dich", "du", "euch"], "e": "Dativ (wem? — kimga?) olmoshi: dir. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Dativdagi olmoshni qo’ying: Sie schenkt ___ Blumen. (wir)", "a": "uns", "o": ["uns", "euch", "ihnen", "wir"], "e": "Dativ (wem? — kimga?) olmoshi: uns. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Dativdagi olmoshni qo’ying: Ich zeige ___ die Stadt. (sie — u, qiz)", "a": "ihr", "o": ["ihr", "ihn", "ihm", "sie"], "e": "Dativ (wem? — kimga?) olmoshi: ihr. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Dativdagi olmoshni qo’ying: Ich antworte ___. (ihr)", "a": "euch", "o": ["euch", "euer", "uns", "ihnen"], "e": "Dativ (wem? — kimga?) olmoshi: euch. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Dativdagi olmoshni qo’ying: Der Lehrer hilft ___. (sie — ular)", "a": "ihnen", "o": ["ihnen", "sie", "ihr", "ihm"], "e": "Dativ (wem? — kimga?) olmoshi: ihnen. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Dativdagi olmoshni qo’ying: Ich gebe ___ das Buch. (Sie — Siz, hurmat)", "a": "Ihnen", "o": ["Ihnen", "Sie", "ihnen", "dir"], "e": "Dativ (wem? — kimga?) olmoshi: Ihnen. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Dativdagi olmoshni qo’ying: Ich schicke ___ die neue CD. (Walter, er)", "a": "ihm", "o": ["ihm", "ihn", "er", "ihr"], "e": "Dativ (wem? — kimga?) olmoshi: ihm. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Dativdagi olmoshni qo’ying: Ich schicke ___ die neue CD. (Elke, sie)", "a": "ihr", "o": ["ihr", "ihn", "ihm", "sie"], "e": "Dativ (wem? — kimga?) olmoshi: ihr. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Dativdagi olmoshni qo’ying: Er gibt ___ das Geld. (ich)", "a": "mir", "o": ["mir", "mich", "ich", "uns"], "e": "Dativ (wem? — kimga?) olmoshi: mir. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Dativdagi olmoshni qo’ying: Wir zeigen ___ die Wohnung. (ihr)", "a": "euch", "o": ["euch", "euer", "uns", "ihnen"], "e": "Dativ (wem? — kimga?) olmoshi: euch. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Dativdagi olmoshni qo’ying: Ich schenke ___ ein Buch. (du)", "a": "dir", "o": ["dir", "dich", "du", "euch"], "e": "Dativ (wem? — kimga?) olmoshi: dir. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Dativdagi olmoshni qo’ying: Er hilft ___ gern. (wir)", "a": "uns", "o": ["uns", "euch", "ihnen", "wir"], "e": "Dativ (wem? — kimga?) olmoshi: uns. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Dativdagi olmoshni qo’ying: Ich gebe ___ einen Kuli. (das Kind — es)", "a": "ihm", "o": ["ihm", "ihn", "ihr", "es"], "e": "Dativ (wem? — kimga?) olmoshi: ihm. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Dativdagi olmoshni qo’ying: Sie dankt ___ für die Blumen. (ich)", "a": "mir", "o": ["mir", "mich", "ich", "dir"], "e": "Dativ (wem? — kimga?) olmoshi: mir. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Dativdagi olmoshni qo’ying: Wir antworten ___. (er)", "a": "ihm", "o": ["ihm", "ihn", "er", "ihnen"], "e": "Dativ (wem? — kimga?) olmoshi: ihm. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Qaysi olmosh Dativ shakli (wem?, kimga?) — “men”?", "a": "mir", "o": ["mir", "mich", "ich", "mein"], "e": "ich → Dativ mir, Akkusativ mich. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Qaysi olmosh Akkusativ shakli (wen?, kimni?) — “men”?", "a": "mich", "o": ["mich", "mir", "ich", "meinen"], "e": "ich → Dativ mir, Akkusativ mich. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "“du” olmoshining Dativi qaysi?", "a": "dir", "o": ["dir", "dich", "du", "dein"], "e": "du → Dativ dir, Akkusativ dich. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "“du” olmoshining Akkusativi qaysi?", "a": "dich", "o": ["dich", "dir", "du", "deinen"], "e": "du → Dativ dir, Akkusativ dich. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "“er” olmoshining Dativi qaysi?", "a": "ihm", "o": ["ihm", "ihn", "ihr", "er"], "e": "er → Dativ ihm, Akkusativ ihn. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "“er” olmoshining Akkusativi qaysi?", "a": "ihn", "o": ["ihn", "ihm", "ihnen", "er"], "e": "er → Dativ ihm, Akkusativ ihn. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "“sie” (u, qiz) olmoshining Dativi qaysi?", "a": "ihr", "o": ["ihr", "ihm", "ihnen", "sie"], "e": "sie (u) → Dativ ihr, Akkusativ sie. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "“sie” (ular) olmoshining Dativi qaysi?", "a": "ihnen", "o": ["ihnen", "ihm", "ihr", "sie"], "e": "sie (ular) → Dativ ihnen, Akkusativ sie. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "“Sie” (Siz, hurmat) olmoshining Dativi qaysi?", "a": "Ihnen", "o": ["Ihnen", "Sie", "ihnen", "Ihr"], "e": "Sie → Dativ Ihnen, Akkusativ Sie (bosh harf bilan). Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "“wir” olmoshining Dativi va Akkusativi qaysi?", "a": "ikkalasi ham uns", "o": ["ikkalasi ham uns", "Dativ uns, Akkusativ unser", "Dativ unsere, Akkusativ uns", "Dativ ihnen, Akkusativ uns"], "e": "wir → uns (Dativ ham, Akkusativ ham). Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "“ihr” (sizlar) olmoshining Dativi va Akkusativi qaysi?", "a": "ikkalasi ham euch", "o": ["ikkalasi ham euch", "Dativ euch, Akkusativ euer", "Dativ ihnen, Akkusativ euch", "Dativ ihr, Akkusativ euch"], "e": "ihr → euch (Dativ ham, Akkusativ ham). Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Qaysi shaxs olmoshining Dativ va Akkusativi bir xil?", "a": "wir (uns)", "o": ["wir (uns)", "er", "du", "ich"], "e": "wir → uns va ihr → euch: Dativ va Akkusativ bir xil. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "“es” olmoshining Akkusativi qaysi?", "a": "es", "o": ["es", "ihn", "ihm", "sie"], "e": "es → Akkusativ es, Dativ ihm. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Qaysi gap to’g’ri? (Men unga — erkakka — kitob beraman.)", "a": "Ich gebe ihm das Buch.", "o": ["Ich gebe ihm das Buch.", "Ich gebe ihn das Buch.", "Ich gebe er das Buch.", "Ich gebe sein das Buch."], "e": "geben + kimga? → Dativ: ihm. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Qaysi gap to’g’ri? (Men uni — erkakni — ko’ryapman.)", "a": "Ich sehe ihn.", "o": ["Ich sehe ihn.", "Ich sehe ihm.", "Ich sehe er.", "Ich sehe sein."], "e": "sehen + kimni? → Akkusativ: ihn. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Qaysi gap to’g’ri? (U menga yordam beradi.)", "a": "Er hilft mir.", "o": ["Er hilft mir.", "Er hilft mich.", "Er hilft ich.", "Er hilft mein."], "e": "helfen → Dativ: mir. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Qaysi gap to’g’ri? (Men seni qidiryapman.)", "a": "Ich suche dich.", "o": ["Ich suche dich.", "Ich suche dir.", "Ich suche du.", "Ich suche dein."], "e": "suchen → Akkusativ: dich. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Qaysi gap to’g’ri? (Men sizga — hurmat bilan — rahmat aytaman.)", "a": "Ich danke Ihnen.", "o": ["Ich danke Ihnen.", "Ich danke Sie.", "Ich danke ihnen.", "Ich danke Ihr."], "e": "danken → Dativ: Ihnen (bosh harf bilan). Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Qaysi gap to’g’ri? (U — qiz — meni taniydi.)", "a": "Sie kennt mich.", "o": ["Sie kennt mich.", "Sie kennt mir.", "Sie kennt ich.", "Sie kennt mein."], "e": "kennen → Akkusativ: mich; sie (u) bilan fe’l kennt. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Qaysi gap to’g’ri? (Biz sizlarga — ihr — uyni ko’rsatamiz.)", "a": "Wir zeigen euch die Wohnung.", "o": ["Wir zeigen euch die Wohnung.", "Wir zeigen ihr die Wohnung.", "Wir zeigen euer die Wohnung.", "Wir zeigen ihnen die Wohnung."], "e": "ihr → euch. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Qaysi gap to’g’ri? (U — qiz — unga kitob beradi.)", "a": "Sie gibt ihm das Buch.", "o": ["Sie gibt ihm das Buch.", "Sie gibt ihn das Buch.", "Sie gibt ihr das Buch.", "Sie gibt er das Buch."], "e": "Dativ er → ihm. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Qaysi gap noto’g’ri? (1)", "a": "Ich sehe dir.", "o": ["Ich sehe dir.", "Ich sehe dich.", "Ich helfe dir.", "Ich danke dir."], "e": "sehen Akkusativ talab qiladi (dich); helfen va danken Dativ (dir). Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Qaysi gap noto’g’ri? (2)", "a": "Er hilft ihn.", "o": ["Er hilft ihn.", "Er hilft ihm.", "Er sieht ihn.", "Er kennt ihn."], "e": "helfen Dativ talab qiladi: Er hilft ihm. Dativ / Akkusativ: ich mir/mich, du dir/dich, er ihm/ihn, es ihm/es, sie (u) ihr/sie, wir uns/uns, ihr euch/euch, sie (ular) ihnen/sie, Sie (Siz) Ihnen/Sie."}, {"q": "Präteritum shaklini tanlang: Gestern ___ ich zu Hause. (sein)", "a": "war", "o": ["war", "bin", "warst", "waren"], "e": "sein (ich) → Präteritum: war. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Du ___ gestern in Berlin. (sein)", "a": "warst", "o": ["warst", "bist", "waren", "wart"], "e": "sein (du) → Präteritum: warst. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Er ___ letzte Woche krank. (sein)", "a": "war", "o": ["war", "ist", "warst", "waren"], "e": "sein (er) → Präteritum: war. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Wir ___ im Sommer in Spanien. (sein)", "a": "waren", "o": ["waren", "sind", "warst", "wart"], "e": "sein (wir) → Präteritum: waren. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Ihr ___ gestern im Kino. (sein)", "a": "wart", "o": ["wart", "seid", "warst", "waren"], "e": "sein (ihr) → Präteritum: wart. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Die Kinder ___ gestern in der Schule. (sein)", "a": "waren", "o": ["waren", "sind", "warst", "wart"], "e": "sein (sie) → Präteritum: waren. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Ich ___ gestern keine Zeit. (haben)", "a": "hatte", "o": ["hatte", "habe", "hattest", "hatten"], "e": "haben (ich) → Präteritum: hatte. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Du ___ letzte Woche viel Arbeit. (haben)", "a": "hattest", "o": ["hattest", "hast", "hatten", "hattet"], "e": "haben (du) → Präteritum: hattest. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Sie (u, qiz) ___ gestern keine Zeit. (haben)", "a": "hatte", "o": ["hatte", "hat", "hattest", "hatten"], "e": "haben (er) → Präteritum: hatte. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Wir ___ gestern Besuch. (haben)", "a": "hatten", "o": ["hatten", "haben", "hattest", "hattet"], "e": "haben (wir) → Präteritum: hatten. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Ihr ___ letztes Jahr ein schönes Zimmer. (haben)", "a": "hattet", "o": ["hattet", "habt", "hattest", "hatten"], "e": "haben (ihr) → Präteritum: hattet. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Meine Eltern ___ früher ein Auto. (haben)", "a": "hatten", "o": ["hatten", "haben", "hattest", "hattet"], "e": "haben (sie) → Präteritum: hatten. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Ich ___ gestern nicht kommen. (können)", "a": "konnte", "o": ["konnte", "kann", "konntest", "konnten"], "e": "können (ich) → Präteritum: konnte. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Du ___ gestern nicht arbeiten. (können)", "a": "konntest", "o": ["konntest", "kannst", "konnten", "konntet"], "e": "können (du) → Präteritum: konntest. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Er ___ gestern den Text nicht übersetzen. (können)", "a": "konnte", "o": ["konnte", "kann", "konntest", "konnten"], "e": "können (er) → Präteritum: konnte. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Wir ___ gestern nicht schlafen. (können)", "a": "konnten", "o": ["konnten", "können", "konntest", "konntet"], "e": "können (wir) → Präteritum: konnten. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Ihr ___ gestern nicht helfen. (können)", "a": "konntet", "o": ["konntet", "könnt", "konntest", "konnten"], "e": "können (ihr) → Präteritum: konntet. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Ich ___ gestern lange arbeiten. (müssen)", "a": "musste", "o": ["musste", "muss", "musstest", "mussten"], "e": "müssen (ich) → Präteritum: musste. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Du ___ gestern früh aufstehen. (müssen)", "a": "musstest", "o": ["musstest", "musst", "mussten", "musstet"], "e": "müssen (du) → Präteritum: musstest. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Sie (u, qiz) ___ gestern nach Hause fahren. (müssen)", "a": "musste", "o": ["musste", "muss", "musstest", "mussten"], "e": "müssen (er) → Präteritum: musste. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Wir ___ letzte Woche viel lernen. (müssen)", "a": "mussten", "o": ["mussten", "müssen", "musstest", "musstet"], "e": "müssen (wir) → Präteritum: mussten. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Ihr ___ gestern zu Hause bleiben. (müssen)", "a": "musstet", "o": ["musstet", "müsst", "musstest", "mussten"], "e": "müssen (ihr) → Präteritum: musstet. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Ich ___ früher schreiben. (wollen)", "a": "wollte", "o": ["wollte", "will", "wolltest", "wollten"], "e": "wollen (ich) → Präteritum: wollte. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Du ___ gestern ins Kino gehen. (wollen)", "a": "wolltest", "o": ["wolltest", "willst", "wollten", "wolltet"], "e": "wollen (du) → Präteritum: wolltest. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Er ___ gestern Fußball spielen. (wollen)", "a": "wollte", "o": ["wollte", "will", "wolltest", "wollten"], "e": "wollen (er) → Präteritum: wollte. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Wir ___ letztes Jahr nach Spanien fahren. (wollen)", "a": "wollten", "o": ["wollten", "wollen", "wolltest", "wolltet"], "e": "wollen (wir) → Präteritum: wollten. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Ihr ___ gestern nicht arbeiten. (wollen)", "a": "wolltet", "o": ["wolltet", "wollt", "wolltest", "wollten"], "e": "wollen (ihr) → Präteritum: wolltet. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Präteritum shaklini tanlang: Die Studenten ___ gestern ins Kino gehen. (wollen)", "a": "wollten", "o": ["wollten", "wollen", "wolltest", "wolltet"], "e": "wollen (sie) → Präteritum: wollten. Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "“sein” fe’lining Präteritumi, du uchun:", "a": "warst", "o": ["warst", "war", "waren", "wart"], "e": "sein → warst (du). Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "“sein” fe’lining Präteritumi, wir uchun:", "a": "waren", "o": ["waren", "war", "warst", "wart"], "e": "sein → waren (wir). Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "“sein” fe’lining Präteritumi, ihr uchun:", "a": "wart", "o": ["wart", "war", "warst", "waren"], "e": "sein → wart (ihr). Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "“haben” fe’lining Präteritumi, du uchun:", "a": "hattest", "o": ["hattest", "hatte", "hatten", "hattet"], "e": "haben → hattest (du). Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "“haben” fe’lining Präteritumi, wir uchun:", "a": "hatten", "o": ["hatten", "hatte", "hattest", "hattet"], "e": "haben → hatten (wir). Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "“haben” fe’lining Präteritumi, ihr uchun:", "a": "hattet", "o": ["hattet", "hatte", "hattest", "hatten"], "e": "haben → hattet (ihr). Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "“können” fe’lining Präteritumi, du uchun:", "a": "konntest", "o": ["konntest", "konnte", "konnten", "konntet"], "e": "können → konntest (du). Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "“können” fe’lining Präteritumi, wir uchun:", "a": "konnten", "o": ["konnten", "konnte", "konntest", "konntet"], "e": "können → konnten (wir). Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "“können” fe’lining Präteritumi, ihr uchun:", "a": "konntet", "o": ["konntet", "konnte", "konntest", "konnten"], "e": "können → konntet (ihr). Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "“müssen” fe’lining Präteritumi, du uchun:", "a": "musstest", "o": ["musstest", "musste", "mussten", "musstet"], "e": "müssen → musstest (du). Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "“müssen” fe’lining Präteritumi, wir uchun:", "a": "mussten", "o": ["mussten", "musste", "musstest", "musstet"], "e": "müssen → mussten (wir). Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "“müssen” fe’lining Präteritumi, ihr uchun:", "a": "musstet", "o": ["musstet", "musste", "musstest", "mussten"], "e": "müssen → musstet (ihr). Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "“wollen” fe’lining Präteritumi, du uchun:", "a": "wolltest", "o": ["wolltest", "wollte", "wollten", "wolltet"], "e": "wollen → wolltest (du). Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "“wollen” fe’lining Präteritumi, wir uchun:", "a": "wollten", "o": ["wollten", "wollte", "wolltest", "wolltet"], "e": "wollen → wollten (wir). Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "“wollen” fe’lining Präteritumi, ihr uchun:", "a": "wolltet", "o": ["wolltet", "wollte", "wolltest", "wollten"], "e": "wollen → wolltet (ihr). Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "Modal fe’llarning Präteritumida (konnte, musste, wollte) umlaut (ä, ö, ü) bormi?", "a": "Yo’q, umlaut yo’qoladi", "o": ["Yo’q, umlaut yo’qoladi", "Ha, umlaut saqlanadi", "Faqat ko’plikda umlaut bor", "Faqat du shaklida umlaut bor"], "e": "können → konnte, müssen → musste (ü yo’q), wollen → wollte."}, {"q": "Präteritumda er/sie/es (3-shaxs birlik) uchun fe’l qanday bo’ladi?", "a": "ich shakli bilan bir xil, qo’shimchasiz", "o": ["ich shakli bilan bir xil, qo’shimchasiz", "-t qo’shimchasi bilan", "-st qo’shimchasi bilan", "-en qo’shimchasi bilan"], "e": "ich war = er war; ich hatte = er hatte; ich konnte = er konnte."}, {"q": "Präteritumda du uchun qo’shimcha qaysi?", "a": "-st", "o": ["-st", "-t", "-en", "-e"], "e": "du warst, du hattest, du konntest."}, {"q": "Präteritumda wir va sie (ular) uchun qo’shimcha qaysi?", "a": "-en", "o": ["-en", "-st", "-t", "-e"], "e": "wir waren, wir hatten, wir konnten."}, {"q": "Präteritumda ihr uchun qo’shimcha qaysi?", "a": "-t", "o": ["-t", "-st", "-en", "-e"], "e": "ihr wart, ihr hattet, ihr konntet."}, {"q": "Kitob bo’yicha, o’tgan zamondagi voqealar haqida gapirganda sein, haben va modal fe’llar odatda qaysi zamonda ishlatiladi?", "a": "Präteritum", "o": ["Präteritum", "Futur", "Präsens", "Imperativ"], "e": "Ich war gestern zu Hause. Sie hatte keine Zeit. — sein, haben va modal fe’llar odatda Präteritumda."}, {"q": "“Er ___ keine Zeit.” (o’tgan zamon)", "a": "hatte", "o": ["hatte", "hat", "hattest", "haben"], "e": "haben → hatte (er). Präteritum: sein — war, warst, war, waren, wart, waren; haben — hatte, hattest, hatte, hatten, hattet, hatten; können — konnte, musste, wollte (umlautsiz!): ich/er qo’shimchasiz, du -st, wir/sie -en, ihr -t."}, {"q": "“ich war” ning ko’pligi (wir) qaysi?", "a": "wir waren", "o": ["wir waren", "wir war", "wir sind", "wir wart"], "e": "war → waren (wir)."}];
+const RULE_ROWS=[["ich","mir","mich"],["du","dir","dich"],["er","ihm","ihn"],["es","ihm","es"],["sie (u)","ihr","sie"],["wir","uns","uns"],["ihr","euch","euch"],["sie (ular)","ihnen","sie"],["Sie (Siz)","Ihnen","Sie"]];
+const app=document.getElementById("app");
+let S={ph:"s",cnt:25,qs:[],i:0,pick:null,opts:null,ok:0,bad:[]};
+function best(){try{return JSON.parse(localStorage.getItem("l19best")||"null")}catch(e){return null}}
+function saveBest(p){try{const b=best();if(b==null||p>b)localStorage.setItem("l19best",JSON.stringify(p))}catch(e){}}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a}
+function h(t,p,k){const e=document.createElement(t);Object.entries(p||{}).forEach(([n,v])=>{if(n.indexOf("aria-")===0||n==="role")e.setAttribute(n,v);else e[n]=v});(k||[]).forEach(x=>e.appendChild(typeof x==="string"?document.createTextNode(x):x));return e}
+function render(){app.replaceChildren();if(S.ph==="s")setup();else if(S.ph==="r")run();else end()}
+function ruleBox(){
+ const t=h("table");t.appendChild(h("tr",{},["Olmosh","Dativ (kimga?)","Akkusativ (kimni?)"].map(x=>h("th",{textContent:x}))));
+ RULE_ROWS.forEach(r=>t.appendChild(h("tr",{},r.map(x=>h("td",{textContent:x})))));
+ return h("details",{className:"box"},[h("summary",{textContent:"Qoidani ko’rish"}),h("div",{className:"rule"},[
+  h("div",{className:"scroll"},[t]),
+  h("p",{textContent:"Präteritum: sein — war, warst, war, waren, wart, waren. haben — hatte, hattest, hatte, hatten, hattet, hatten. können, müssen, wollen — konnte, musste, wollte (umlautsiz), qo’shimchalar: ich/er yo’q, du -st, wir/sie -en, ihr -t."})])])}
+function setup(){
+ app.appendChild(h("div",{},[h("h1",{textContent:"Lektion 19 testi"}),h("p",{className:"sub",textContent:"Ein Brief: shaxs olmoshlari Dativ va Akkusativda, sein, haben va modal fe’llar Präteritumda. Bankda "+QS.length+" ta savol bor."})]));
+ const b=best();if(b!=null)app.appendChild(h("div",{className:"sub",textContent:"Eng yaxshi natija: "+b+"%"}));
+ const g=h("div",{className:"chips",role:"group","aria-label":"Savollar soni"});
+ [10,25,30,50].forEach(n=>g.appendChild(h("button",{className:"chip",textContent:String(n),"aria-pressed":String(S.cnt===n),onclick:()=>{S.cnt=n;render()}})));
+ app.appendChild(h("div",{className:"lbl",textContent:"Savollar soni: "+S.cnt}));app.appendChild(g);
+ app.appendChild(h("button",{className:"btn",textContent:"Testni boshlash",onclick:()=>start(shuffle(QS).slice(0,S.cnt))}));
+ app.appendChild(ruleBox())}
+function start(qs){S.qs=qs;S.i=0;S.pick=null;S.opts=null;S.ok=0;S.bad=[];S.ph="r";render()}
+function run(){
+ const q=S.qs[S.i];if(!S.opts)S.opts=shuffle(q.o);
+ app.appendChild(h("div",{className:"stats"},[h("span",{textContent:"Savol "+(S.i+1)+"/"+S.qs.length}),h("span",{textContent:"✓ "+S.ok})]));
+ const bar=h("div",{className:"bar"},[h("i")]);bar.firstChild.style.width=(S.i/S.qs.length*100)+"%";app.appendChild(bar);
+ app.appendChild(h("div",{className:"box q",textContent:q.q}));
+ const ol=h("div",{className:"opts"});
+ S.opts.forEach(o=>{const k=S.pick==null?"":(o===q.a?" good":(o===S.pick?" wrong":""));
+  ol.appendChild(h("button",{className:"opt"+k,textContent:o,disabled:S.pick!=null,onclick:()=>{S.pick=o;if(o===q.a)S.ok++;else S.bad.push({q,pick:o});render()}}))});
+ app.appendChild(ol);
+ if(S.pick!=null){const good=S.pick===q.a;
+  app.appendChild(h("div",{className:"msg "+(good?"ok":"bad")},good?["To’g’ri ✓"]:["To’g’ri javob:",h("b",{textContent:q.a})]));
+  app.appendChild(h("div",{className:"exp",textContent:q.e}));
+  const last=S.i+1>=S.qs.length;
+  app.appendChild(h("button",{className:"btn",textContent:last?"Natijani ko’rish":"Keyingisi",onclick:()=>{if(last){saveBest(Math.round(S.ok/S.qs.length*100));S.ph="e"}else{S.i++;S.pick=null;S.opts=null}render();window.scrollTo(0,0)}}))}
+ app.appendChild(h("button",{className:"btn ghost",textContent:"Testni to’xtatish",onclick:()=>{S.ph="s";render()}}))}
+function end(){
+ const N=S.qs.length,p=Math.round(S.ok/N*100);
+ app.appendChild(h("div",{className:"box center"},[h("div",{className:"lbl",textContent:"Natija"}),h("div",{className:"big",textContent:p+"%"}),h("div",{className:"sub",textContent:S.ok+" / "+N+" to’g’ri"}),
+  h("div",{className:"sub",textContent:p===100?"A’lo! Olmoshlar va Präteritumni yaxshi bilasiz.":p>=70?"Yaxshi natija. Xatolarni ko’rib chiqing.":"Qoidani qayta o’qib, yana urinib ko’ring."})]));
+ if(S.bad.length){app.appendChild(h("div",{className:"gh",textContent:"XATOLAR ("+S.bad.length+")"}));
+  S.bad.forEach(x=>app.appendChild(h("div",{className:"box mi"},[h("div",{textContent:x.q.q}),h("div",{className:"x",textContent:"Sizning javob: "+x.pick}),h("div",{className:"v",textContent:"To’g’ri: "+x.q.a}),h("small",{textContent:x.q.e})])));
+  app.appendChild(h("button",{className:"btn",textContent:"Xatolarni qayta yechish",onclick:()=>start(shuffle(S.bad.map(x=>x.q)))}))}
+ app.appendChild(h("button",{className:"btn ghost",textContent:"Shu testni qayta",onclick:()=>start(shuffle(S.qs))}));
+ app.appendChild(h("button",{className:"btn ghost",textContent:"Yangi test",onclick:()=>{S.ph="s";render()}}))}
+render();
+</script>
+<script>
+const V=[
+["legen","legte","gelegt","qo’ymoq (yotqizib)","Wohin? + Akkusativ","p","pos"],
+["liegen","lag","gelegen","yotmoq, joylashmoq","Wo? + Dativ","p","pos"],
+["setzen","setzte","gesetzt","o’tqizmoq","Wohin? + Akkusativ","p","pos"],
+["sitzen","saß","gesessen","o’tirmoq","Wo? + Dativ","p","pos"],
+["stellen","stellte","gestellt","tik qo’ymoq","Wohin? + Akkusativ","p","pos"],
+["stehen","stand","gestanden","turmoq (tik)","Wo? + Dativ","p","pos"],
+["hängen","hängte","gehängt","osmoq","Wohin? + Akkusativ","p","pos"],
+["hängen","hing","gehangen","osilib turmoq","Wo? + Dativ","p","pos"],
+["schreiben","schrieb","geschrieben","yozmoq","","s","eiie"],
+["bleiben","blieb","geblieben","qolmoq","","s","eiie"],
+["steigen","stieg","gestiegen","ko’tarilmoq","","s","eiie"],
+["heißen","hieß","geheißen","nomlanmoq","Partizip: geheißen (ei)","s","eiie"],
+["schneiden","schnitt","geschnitten","kesmoq","","s","eii"],
+["bieten","bot","geboten","taklif qilmoq","","s","ieoo"],
+["fliegen","flog","geflogen","uchmoq","","s","ieoo"],
+["ziehen","zog","gezogen","tortmoq","","s","ieoo"],
+["verlieren","verlor","verloren","yo’qotmoq","","s","ieoo"],
+["schließen","schloss","geschlossen","yopmoq","ß → ss (schloss)","s","ieoo"],
+["wiegen","wog","gewogen","tortmoq (og’irligi)","","s","ieoo"],
+["finden","fand","gefunden","topmoq","","s","iau"],
+["singen","sang","gesungen","kuylamoq","","s","iau"],
+["trinken","trank","getrunken","ichmoq","","s","iau"],
+["gelingen","gelang","gelungen","muvaffaq bo’lmoq","","s","iau"],
+["verschwinden","verschwand","verschwunden","yo’q bo’lmoq","","s","iau"],
+["beginnen","begann","begonnen","boshlamoq","","s","iao"],
+["gewinnen","gewann","gewonnen","yutmoq","","s","iao"],
+["schwimmen","schwamm","geschwommen","suzmoq","","s","iao"],
+["nehmen","nahm","genommen","olmoq","Partizip: genommen","s","eao"],
+["sprechen","sprach","gesprochen","gapirmoq","","s","eao"],
+["treffen","traf","getroffen","uchratmoq","","s","eao"],
+["sterben","starb","gestorben","o’lmoq","","s","eao"],
+["helfen","half","geholfen","yordam bermoq","","s","eao"],
+["empfehlen","empfahl","empfohlen","tavsiya qilmoq","","s","eao"],
+["geben","gab","gegeben","bermoq","","s","eae"],
+["lesen","las","gelesen","o’qimoq","","s","eae"],
+["sehen","sah","gesehen","ko’rmoq","","s","eae"],
+["essen","aß","gegessen","yemoq","Präteritum: aß (ß)","s","eae"],
+["vergessen","vergaß","vergessen","unutmoq","Präteritum: vergaß (ß)","s","eae"],
+["geschehen","geschah","geschehen","sodir bo’lmoq","","s","eae"],
+["fahren","fuhr","gefahren","(transportda) bormoq","","s","aua"],
+["tragen","trug","getragen","ko’tarmoq, kiymoq","","s","aua"],
+["schlagen","schlug","geschlagen","urmoq","","s","aua"],
+["laden","lud","geladen","yuklamoq","","s","aua"],
+["waschen","wusch","gewaschen","yuvmoq","","s","aua"],
+["braten","briet","gebraten","qovurmoq","","s","ie"],
+["halten","hielt","gehalten","ushlamoq","","s","ie"],
+["lassen","ließ","gelassen","qo’ymoq, ruxsat bermoq","","s","ie"],
+["schlafen","schlief","geschlafen","uxlamoq","","s","ie"],
+["fallen","fiel","gefallen","yiqilmoq","","s","ie"],
+["laufen","lief","gelaufen","yugurmoq","au – ie – au","s","ie"],
+["rufen","rief","gerufen","chaqirmoq","u – ie – u","s","ie"],
+["fangen","fing","gefangen","tutmoq","a – i – a","s","oth"],
+["gehen","ging","gegangen","bormoq","e – i – a","s","oth"],
+["kommen","kam","gekommen","kelmoq","o – a – o","s","oth"],
+["bringen","brachte","gebracht","keltirmoq","i – a – a","m","mix"],
+["denken","dachte","gedacht","o’ylamoq","e – a – a","m","mix"],
+["kennen","kannte","gekannt","tanimoq, bilmoq","e – a – a","m","mix"],
+["nennen","nannte","genannt","atamoq","e – a – a","m","mix"],
+["wissen","wusste","gewusst","bilmoq","i – u – u","m","mix"],
+["leben","lebte","gelebt","yashamoq","","w","weak"],
+["fragen","fragte","gefragt","so’ramoq","","w","weak"],
+["suchen","suchte","gesucht","izlamoq","","w","weak"],
+["kaufen","kaufte","gekauft","sotib olmoq","","w","weak"],
+["sagen","sagte","gesagt","aytmoq","","w","weak"],
+["hören","hörte","gehört","tinglamoq, eshitmoq","","w","weak"],
+["spielen","spielte","gespielt","o’ynamoq","","w","weak"],
+["kochen","kochte","gekocht","pishirmoq","","w","weak"],
+["lernen","lernte","gelernt","o’rganmoq","","w","weak"],
+["bekommen","bekam","bekommen","olmoq","← kommen","x","pre"],
+["bestehen","bestand","bestanden","(imtihondan) o’tmoq; mavjud bo’lmoq","← stehen","x","pre"],
+["entstehen","entstand","entstanden","paydo bo’lmoq","← stehen","x","pre"],
+["verstehen","verstand","verstanden","tushunmoq","← stehen","x","pre"],
+["gefallen","gefiel","gefallen","yoqmoq","← fallen","x","pre"],
+["erfinden","erfand","erfunden","ixtiro qilmoq","← finden","x","pre"],
+["empfinden","empfand","empfunden","his qilmoq","← finden","x","pre"],
+["verbringen","verbrachte","verbracht","(vaqt) o’tkazmoq","← bringen","x","pre"],
+["bedenken","bedachte","bedacht","o’ylab ko’rmoq","← denken","x","pre"],
+["erkennen","erkannte","erkannt","tanimoq","← kennen","x","pre"],
+["benennen","benannte","benannt","nom bermoq","← nennen","x","pre"],
+["versprechen","versprach","versprochen","va’da bermoq","← sprechen","x","pre"],
+["besprechen","besprach","besprochen","muhokama qilmoq","← sprechen","x","pre"],
+["vergeben","vergab","vergeben","kechirmoq","← geben","x","pre"],
+["verlassen","verließ","verlassen","tark etmoq","← lassen","x","pre"],
+["entlassen","entließ","entlassen","ishdan bo’shatmoq","← lassen","x","pre"],
+["behalten","behielt","behalten","saqlab qolmoq","← halten","x","pre"],
+["enthalten","enthielt","enthalten","o’z ichiga olmoq","← halten","x","pre"],
+["erhalten","erhielt","erhalten","(xat, sovg’a) olmoq","← halten","x","pre"],
+["ertragen","ertrug","ertragen","chidamoq","← tragen","x","pre"],
+["beschreiben","beschrieb","beschrieben","tasvirlamoq","← schreiben","x","pre"],
+["erziehen","erzog","erzogen","tarbiyalamoq","← ziehen","x","pre"],
+["entscheiden","entschied","entschieden","qaror qilmoq","← scheiden","x","pre"],
+["beweisen","bewies","bewiesen","isbotlamoq","← weisen","x","pre"],
+["verbieten","verbot","verboten","taqiqlamoq","← bieten","x","pre"],
+["vergehen","verging","vergangen","(vaqt) o’tib ketmoq","← gehen","x","pre"],
+["befehlen","befahl","befohlen","buyurmoq","","x","pre"],
+["besitzen","besaß","besessen","egalik qilmoq","← sitzen","x","pre"],
+["ankommen","kam an","angekommen","yetib kelmoq","← kommen","x","sep"],
+["aufstehen","stand auf","aufgestanden","o’rnidan turmoq","← stehen","x","sep"],
+["einladen","lud ein","eingeladen","taklif qilmoq, mehmonga chaqirmoq","← laden","x","sep"],
+["anrufen","rief an","angerufen","qo’ng’iroq qilmoq","← rufen","x","sep"],
+["mitbringen","brachte mit","mitgebracht","o’zi bilan olib kelmoq","← bringen","x","sep"],
+["aussehen","sah aus","ausgesehen","ko’rinmoq (tashqi ko’rinish)","← sehen","x","sep"],
+["fernsehen","sah fern","ferngesehen","televizor ko’rmoq","← sehen","x","sep"],
+["anfangen","fing an","angefangen","boshlamoq","← fangen","x","sep"],
+["abfahren","fuhr ab","abgefahren","jo’nab ketmoq","← fahren","x","sep"],
+["aussteigen","stieg aus","ausgestiegen","(transportdan) tushmoq","← steigen","x","sep"],
+["einsteigen","stieg ein","eingestiegen","(transportga) chiqmoq","← steigen","x","sep"],
+["annehmen","nahm an","angenommen","qabul qilmoq","← nehmen","x","sep"],
+["mitnehmen","nahm mit","mitgenommen","o’zi bilan olmoq","← nehmen","x","sep"],
+["zurückgeben","gab zurück","zurückgegeben","qaytarib bermoq","← geben","x","sep"],
+["vorschlagen","schlug vor","vorgeschlagen","taklif qilmoq","← schlagen","x","sep"],
+["einschlafen","schlief ein","eingeschlafen","uxlab qolmoq","← schlafen","x","sep"]
+];
+const GR={
+pre:{c:"x",p:"Ajralmas old qo’shimcha: be-, ver-, ent-, er-, ge-, emp-",n:"Old qo’shimcha fe’lning ma’nosini butunlay o’zgartiradi (stehen → verstehen). Bu qo’shimchalar ajralmaydi va Partizip II da qo’shimcha ge- olmaydi: verstanden, bekommen."},
+sep:{c:"x",p:"Ajraluvchan old qo’shimcha: an-, auf-, ein-, mit-, aus-…",n:"Old qo’shimcha gapda fe’ldan ajraladi: Er kam an. Partizip II da ge- qo’shimcha bilan o’zak o’rtasiga tushadi: an-ge-kommen."},
+weak:{c:"w",p:"Kuchsiz: -te / ge-…-t",n:"Oddiy (kuchsiz) fe’llar: o’zak o’zgarmaydi. Präteritum: -te, Partizip II: ge- + o’zak + -t. Masalan: leben – lebte – gelebt."},
+pos:{c:"p",p:"Wohin? ↔ Wo?",n:"Wohin? (qayerga?) → Akkusativ, kuchsiz fe’l (-te, ge-…-t). Wo? (qayerda?) → Dativ, kuchli fe’l. Juftliklar: legen–liegen, setzen–sitzen, stellen–stehen, hängen–hängen."},
+eiie:{c:"s",p:"ei – ie – ie",n:"Präteritum va Partizip II da ei → ie bo’ladi (heißen — Partizipda ei qoladi)."},
+eii:{c:"s",p:"ei – i – i",n:"ei → i, undosh ikkilanadi: schnitt, geschnitten."},
+ieoo:{c:"s",p:"ie – o – o",n:"ie → o, Partizip II ham o bilan: bieten – bot – geboten."},
+iau:{c:"s",p:"i – a – u",n:"i → a → u: finden – fand – gefunden."},
+iao:{c:"s",p:"i – a – o",n:"i → a → o: beginnen – begann – begonnen."},
+eao:{c:"s",p:"e – a – o",n:"e → a → o: helfen – half – geholfen."},
+eae:{c:"s",p:"e – a – e",n:"e → a → e (Partizip Infinitiv unlisi): geben – gab – gegeben."},
+aua:{c:"s",p:"a – u – a",n:"a → u → a: fahren – fuhr – gefahren. Präsensda du/er: ä (du fährst)."},
+ie:{c:"s",p:"a – ie – a",n:"Präteritumda ie, Partizip II Infinitiv unlisi bilan: halten – hielt – gehalten."},
+oth:{c:"s",p:"Istisno",n:"Alohida o’zgaradigan fe’llar: fangen, gehen, kommen."},
+mix:{c:"m",p:"Aralash",n:"-te qo’shimchasi + o’zak unlisi o’zgaradi: bringen – brachte – gebracht."}
+};
+const GO=["weak","eiie","eii","ieoo","iau","iao","eao","eae","aua","ie","pos","pre","sep","oth","mix"];
+const SEC={weak:"Kuchsiz fe’llar",eiie:"Kuchli fe’llar (unli almashinuvi)",pos:"Joy fe’llari",pre:"Old qo’shimchali fe’llar (ma’nosi o’zgaradi)",oth:"Istisno va aralash fe’llar"};
+const FE=document.getElementById("fe");
+function lk(){try{return JSON.parse(localStorage.getItem("l19known")||"[]")}catch(e){return[]}}
+function ls(){try{localStorage.setItem("l19known",JSON.stringify(F.known))}catch(e){}}
+const F={v:"l",sg:null,q:null,pick:null,ok:0,n:0,srch:"",tm:0,rt:[],deck:[],since:0,typed:false};
+const gv=id=>id==="all"?V:V.filter(v=>v[6]===id);
+function tab(n){app.hidden=n!=="t";FE.hidden=n!=="f";t1.setAttribute("aria-pressed",String(n==="t"));t2.setAttribute("aria-pressed",String(n==="f"));if(n==="f")fr();window.scrollTo(0,0)}
+function fr(){clearTimeout(F.tm);FE.replaceChildren();if(F.v==="q")quiz();else list();}
+function go(v,id){F.v=v;F.sg=id;F.q=null;F.pick=null;F.ok=0;F.n=0;F.rt=[];F.deck=[];F.since=0;fr();window.scrollTo(0,0)}
+function list(){
+ FE.appendChild(h("div",{className:"stats hd"},[h("b",{textContent:"Fe’llar · "+V.length+" ta"}),h("button",{className:"lnk",textContent:"Hammasi bo’yicha mashq →",onclick:()=>go("q","all")})]));
+ const inp=h("input",{className:"inp",type:"search",placeholder:"Qidirish",value:F.srch,"aria-label":"Qidirish"});
+ const box=h("div",{className:"wrap2"});
+ const draw=()=>{const s=F.srch.toLowerCase();box.replaceChildren();
+  GO.forEach(id=>{
+   const rows=gv(id).filter(v=>!s||v.slice(0,5).join(" ").toLowerCase().indexOf(s)>=0);
+   if(!rows.length)return;
+   if(SEC[id])box.appendChild(h("div",{className:"sec",textContent:SEC[id]}));
+   const body=h("div",{className:"gin"},[h("div",{className:"note",textContent:GR[id].n}),
+    h("div",{className:"vl"},rows.map(v=>h("div",{className:"vr"},[h("b",{textContent:v[0]}),h("span",{textContent:v[1]}),h("span",{textContent:v[2]}),h("em",{textContent:v[3]+(v[4]?"  ·  "+v[4]:"")})]))),
+    h("div",{className:"ft"},[h("button",{className:"mb",textContent:"Mashq",onclick:()=>go("q",id)})])]);
+   const g=h("div",{className:"box grp"+(s?" open":"")});
+   g.appendChild(h("button",{className:"gs","aria-expanded":String(!!s),onclick:()=>{const o=g.classList.toggle("open");g.firstChild.setAttribute("aria-expanded",String(o))}},[h("span",{className:"car",textContent:"›"}),h("span",{className:"gt",textContent:GR[id].p}),h("span",{className:"cnt",textContent:gv(id).length})]));
+   g.appendChild(h("div",{className:"gb"},[body]));
+   box.appendChild(g)});
+  if(!box.childNodes.length)box.appendChild(h("div",{className:"box center sub",textContent:"Hech narsa topilmadi"}))};
+ inp.oninput=()=>{F.srch=inp.value;draw()};draw();FE.appendChild(inp);FE.appendChild(box)}
+const VOW=/ie|ei|au|eu|äu|[aeiouäöü]/g,VS=["a","i","o","u","e","ie","ei"];
+function mut(a,v){let st=0,en=a.length;
+ if(v[6]==="sep"){const sp=a.indexOf(" ");if(sp>0)en=sp;else{const g=a.indexOf("ge",2);st=(g>0?g+2:0)}}
+ else{const m=/^(ge|be|ver|ent|er|emp|zer)/.exec(a);if(m)st=m[0].length}
+ if(en===a.length&&/en$/.test(a))en-=2;
+ const out=[];[...a.matchAll(VOW)].filter(x=>x.index>=st&&x.index<en).forEach(x=>VS.forEach(r=>{if(r!==x[0])out.push(a.slice(0,x.index)+r+a.slice(x.index+x[0].length))}));return out}
+function wk(v,kd){
+ if(v[6]==="sep"){const pt=v[1].split(" ").pop(),b=v[0].slice(pt.length).replace(/e?n$/,"");return kd===1?b+"te "+pt:pt+"ge"+b+"t"}
+ const st=v[0].replace(/e?n$/,"");const pre=/^(be|ver|ent|er|ge|emp|zer)/.test(v[0]);
+ return kd===1?st+"te":(pre?"":"ge")+st+"t"}
+const nz=x=>x.toLowerCase().replace(/ä/g,"a").replace(/ö/g,"o").replace(/ü/g,"u").replace(/ß/g,"ss").replace(/\s+/g," ").trim();
+function genQ(v,kd){const ans=v[kd];
+ const cp=(a,b)=>{let i=0;while(i<a.length&&i<b.length&&a[i]===b[i])i++;return i};
+ const sc=x=>{const w=x[kd];return (x[6]===v[6]?3:0)+cp(w,ans)*1.5-Math.abs(w.length-ans.length)+cp(x[0],v[0])*0.5+Math.random()*2};
+ const seen={};seen[ans]=1;
+ const top=V.filter(x=>x!==v&&!seen[x[kd]]&&(x[6]==="sep")===(v[6]==="sep")&&!x[0].endsWith(v[0])&&!v[0].endsWith(x[0])).map(x=>[sc(x),x[kd]]).sort((a,b)=>b[0]-a[0]);
+ const bad=[];top.forEach(t=>{if(bad.length<3&&!seen[t[1]]){seen[t[1]]=1;bad.push(t[1])}});
+ F.q={v,kd,ans,opts:shuffle([ans].concat(bad))};F.pick=null;F.typed=false}
+function newQ(){let t;
+ if(F.rt.length&&F.since>=3){t=F.rt.shift();F.since=0}
+ else{
+  if(!F.deck.length){F.deck=[];gv(F.sg).forEach(v=>{F.deck.push([v,1]);F.deck.push([v,2])});F.deck=shuffle(F.deck)}
+  const last=F.q&&F.q.v;let i=F.deck.findIndex(x=>x[0]!==last);if(i<0)i=0;
+  t=F.deck.splice(i,1)[0];F.since++}
+ genQ(t[0],t[1])}
+function nextQ(){newQ()}
+function quiz(){
+ if(!F.q)newQ();const q=F.q,v=q.v,done=F.pick!=null,wrong=done&&F.pick!==q.ans;
+ const title=F.sg==="all"?"Hammasi":GR[F.sg].p;
+ const nb=h("button",{className:"nx",textContent:"Keyingisi →",disabled:!done,onclick:()=>{nextQ();fr()}});
+ FE.appendChild(h("div",{className:"stats hd"},[h("button",{className:"bk",textContent:"← Qoidalar",onclick:()=>{F.v="l";fr();window.scrollTo(0,0)}}),h("span",{className:"sc",textContent:F.ok+" / "+F.n+(F.n?" · "+Math.round(F.ok/F.n*100)+"%":"")})]));
+ FE.appendChild(h("div",{className:"qt",textContent:title}));
+ if(F.sg!=="all")FE.appendChild(h("div",{className:"note",textContent:GR[F.sg].n}));
+ FE.appendChild(h("div",{className:"box center qb"},[h("div",{className:"qw",textContent:v[0]}),h("div",{className:"sub",textContent:v[3]+(v[4]&&v[6]==="pos"?" · "+v[4]:"")}),h("div",{className:"ask",textContent:q.kd===1?"Präteritum":"Partizip II"})]));
+ const g=h("div",{className:"og"});
+ q.opts.forEach(o=>{const k=!done?"":(o===q.ans?" good":(o===F.pick?" wrong":""));g.appendChild(h("button",{className:"opt"+k,textContent:o,disabled:done,onclick:()=>{F.pick=o;F.n++;if(o===q.ans)F.ok++;else if(!F.rt.some(x=>x[0]===v&&x[1]===q.kd))F.rt.push([v,q.kd]);fr()}}))});
+ FE.appendChild(g);
+ if(done){
+  FE.appendChild(h("div",{className:"res "+(wrong?"bad":"ok"),textContent:wrong?"Xato ✗  To’g’ri javob: "+q.ans:"To’g’ri ✓"}));
+  FE.appendChild(h("div",{className:"why"},[
+   h("div",{className:"wf"},[h("b",{textContent:v[0]+" – "+v[1]+" – "+v[2]})]),
+   h("div",{className:"wt",textContent:v[3]+(v[4]?"  ("+v[4]+")":"")}),
+   h("div",{className:"wr"},[h("b",{textContent:"Sabab: "}),GR[v[6]].p+". "+GR[v[6]].n])]));}
+ FE.appendChild(h("div",{className:"dock"},[nb,h("button",{className:"rb",textContent:"Boshidan boshlash",onclick:()=>{F.ok=0;F.n=0;F.q=null;F.rt=[];F.deck=[];F.since=0;fr()}})]))}
+</script>
